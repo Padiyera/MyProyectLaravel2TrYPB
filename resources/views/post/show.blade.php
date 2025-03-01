@@ -18,7 +18,7 @@
                         </div>
                     </div>
 
-                    <div class="card-body bg-white">
+                    <div class="card-body">
                         
                                 <div class="form-group mb-2 mb20">
                                     <strong>Title:</strong>

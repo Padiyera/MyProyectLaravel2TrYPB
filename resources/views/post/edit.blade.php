@@ -13,7 +13,10 @@
                     <div class="card-header">
                         <span class="card-title">{{ __('Update') }} Post</span>
                     </div>
-                    <div class="card-body bg-white">
+                    <div class="float-right">
+                            <a class="btn btn-primary btn-sm" href="{{ route('posts.index') }}"> {{ __('Back') }}</a>
+                        </div>
+                    <div class="card-body">
                         <form method="POST" action="{{ route('posts.update', $post->id) }}"  role="form" enctype="multipart/form-data">
                             {{ method_field('PATCH') }}
                             @csrf
