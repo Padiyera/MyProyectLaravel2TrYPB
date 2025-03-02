@@ -1,0 +1,100 @@
+@extends('layouts.app')
+
+@section('template_title')
+Tasks
+@endsection
+
+@section('content')
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                        <span id="card_title">
+                            {{ __('Tasks') }}
+                        </span>
+
+                        <div class="float-right">
+                            <a href="{{ route('tasks.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
+                                {{ __('Create New') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @if ($message = Session::get('success'))
+                <div class="alert alert-success m-4">
+                    <p>{{ $message }}</p>
+                </div>
+                @endif
+
+                <div class="card-body bg-white">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="thead">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Client Id</th>
+                                    <th>Persona Contacto</th>
+                                    <th>Telefono Contacto</th>
+                                    <th>Descripcion</th>
+                                    <th>Correo Electronico</th>
+                                    <th>Direccion</th>
+                                    <th>Poblacion</th>
+                                    <th>Codigo Postal</th>
+                                    <th>Provincia</th>
+                                    <th>Estado</th>
+                                    <th>Fecha Creacion</th>
+                                    <th>Operario Encargado</th>
+                                    <th>Fecha Realizacion</th>
+                                    <th>Anotaciones Anteriores</th>
+                                    <th>Anotaciones Posteriores</th>
+                                    <th>Fichero Resumen</th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($tasks as $task)
+                                <tr>
+                                    <td>{{ ++$i }}</td>
+
+                                    <td>{{ $task->client_id }}</td>
+                                    <td>{{ $task->persona_contacto }}</td>
+                                    <td>{{ $task->telefono_contacto }}</td>
+                                    <td>{{ $task->descripcion }}</td>
+                                    <td>{{ $task->correo_electronico }}</td>
+                                    <td>{{ $task->direccion }}</td>
+                                    <td>{{ $task->poblacion }}</td>
+                                    <td>{{ $task->codigo_postal }}</td>
+                                    <td>{{ $task->provincia }}</td>
+                                    <td>{{ $task->estado }}</td>
+                                    <td>{{ $task->fecha_creacion }}</td>
+                                    <td>{{ $task->operario_encargado }}</td>
+                                    <td>{{ $task->fecha_realizacion }}</td>
+                                    <td>{{ $task->anotaciones_anteriores }}</td>
+                                    <td>{{ $task->anotaciones_posteriores }}</td>
+                                    <td>{{ $task->fichero_resumen }}</td>
+
+                                    <td>
+                                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
+                                            <a class="btn btn-sm btn-primary " href="{{ route('tasks.show', $task->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('tasks.edit', $task->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {!! $tasks->withQueryString()->links() !!}
+        </div>
+    </div>
+</div>
+@endsection
