@@ -41,7 +41,7 @@ class TaskController extends Controller
         $request->validate([
             'client_id' => 'required|exists:clients,id',
             'persona_contacto' => 'required|string|max:255',
-            'telefono_contacto' => 'required|string|max:255',
+            'telefono_contacto' => 'required|string|regex:/^[0-9\s\-\+]+$/|max:255',
             'descripcion' => 'required|string',
             'correo_electronico' => 'required|string|email|max:255',
             'direccion' => 'required|string|max:255',
@@ -51,6 +51,8 @@ class TaskController extends Controller
             'fecha_realizacion' => 'required|date|after:today',
             'anotaciones_anteriores' => 'nullable|string',
             'fichero_resumen' => 'nullable|string',
+        ], [
+            'telefono_contacto.regex' => 'El campo teléfono de contacto solo puede contener números, espacios, guiones y el signo más.',
         ]);
 
         // Validación personalizada
@@ -97,7 +99,7 @@ class TaskController extends Controller
         $request->validate([
             'client_id' => 'required|exists:clients,id',
             'persona_contacto' => 'required|string|max:255',
-            'telefono_contacto' => 'required|string|max:255',
+            'telefono_contacto' => 'required|string|regex:/^[0-9\s\-\+]+$/|max:255',
             'descripcion' => 'required|string',
             'correo_electronico' => 'required|string|email|max:255',
             'direccion' => 'required|string|max:255',
@@ -109,6 +111,8 @@ class TaskController extends Controller
             'anotaciones_anteriores' => 'nullable|string',
             'anotaciones_posteriores' => 'nullable|string',
             'fichero_resumen' => 'nullable|string',
+        ], [
+            'telefono_contacto.regex' => 'El campo teléfono de contacto solo puede contener números, espacios, guiones y el signo más.',
         ]);
 
         // Validación personalizada

@@ -46,57 +46,7 @@
             <select name="provincia" class="form-control @error('provincia') is-invalid @enderror" id="provincia">
                 <option value="">Seleccione una provincia</option>
                 <option value="01" {{ old('provincia', $task?->provincia) == '01' ? 'selected' : '' }}>Álava</option>
-                <option value="02" {{ old('provincia', $task?->provincia) == '02' ? 'selected' : '' }}>Albacete</option>
-                <option value="03" {{ old('provincia', $task?->provincia) == '03' ? 'selected' : '' }}>Alicante</option>
-                <option value="04" {{ old('provincia', $task?->provincia) == '04' ? 'selected' : '' }}>Almería</option>
-                <option value="05" {{ old('provincia', $task?->provincia) == '05' ? 'selected' : '' }}>Ávila</option>
-                <option value="06" {{ old('provincia', $task?->provincia) == '06' ? 'selected' : '' }}>Badajoz</option>
-                <option value="07" {{ old('provincia', $task?->provincia) == '07' ? 'selected' : '' }}>Islas Baleares</option>
-                <option value="08" {{ old('provincia', $task?->provincia) == '08' ? 'selected' : '' }}>Barcelona</option>
-                <option value="09" {{ old('provincia', $task?->provincia) == '09' ? 'selected' : '' }}>Burgos</option>
-                <option value="10" {{ old('provincia', $task?->provincia) == '10' ? 'selected' : '' }}>Cáceres</option>
-                <option value="11" {{ old('provincia', $task?->provincia) == '11' ? 'selected' : '' }}>Cádiz</option>
-                <option value="12" {{ old('provincia', $task?->provincia) == '12' ? 'selected' : '' }}>Castellón</option>
-                <option value="13" {{ old('provincia', $task?->provincia) == '13' ? 'selected' : '' }}>Ciudad Real</option>
-                <option value="14" {{ old('provincia', $task?->provincia) == '14' ? 'selected' : '' }}>Córdoba</option>
-                <option value="15" {{ old('provincia', $task?->provincia) == '15' ? 'selected' : '' }}>A Coruña</option>
-                <option value="16" {{ old('provincia', $task?->provincia) == '16' ? 'selected' : '' }}>Cuenca</option>
-                <option value="17" {{ old('provincia', $task?->provincia) == '17' ? 'selected' : '' }}>Girona</option>
-                <option value="18" {{ old('provincia', $task?->provincia) == '18' ? 'selected' : '' }}>Granada</option>
-                <option value="19" {{ old('provincia', $task?->provincia) == '19' ? 'selected' : '' }}>Guadalajara</option>
-                <option value="20" {{ old('provincia', $task?->provincia) == '20' ? 'selected' : '' }}>Guipúzcoa</option>
-                <option value="21" {{ old('provincia', $task?->provincia) == '21' ? 'selected' : '' }}>Huelva</option>
-                <option value="22" {{ old('provincia', $task?->provincia) == '22' ? 'selected' : '' }}>Huesca</option>
-                <option value="23" {{ old('provincia', $task?->provincia) == '23' ? 'selected' : '' }}>Jaén</option>
-                <option value="24" {{ old('provincia', $task?->provincia) == '24' ? 'selected' : '' }}>León</option>
-                <option value="25" {{ old('provincia', $task?->provincia) == '25' ? 'selected' : '' }}>Lleida</option>
-                <option value="26" {{ old('provincia', $task?->provincia) == '26' ? 'selected' : '' }}>La Rioja</option>
-                <option value="27" {{ old('provincia', $task?->provincia) == '27' ? 'selected' : '' }}>Lugo</option>
-                <option value="28" {{ old('provincia', $task?->provincia) == '28' ? 'selected' : '' }}>Madrid</option>
-                <option value="29" {{ old('provincia', $task?->provincia) == '29' ? 'selected' : '' }}>Málaga</option>
-                <option value="30" {{ old('provincia', $task?->provincia) == '30' ? 'selected' : '' }}>Murcia</option>
-                <option value="31" {{ old('provincia', $task?->provincia) == '31' ? 'selected' : '' }}>Navarra</option>
-                <option value="32" {{ old('provincia', $task?->provincia) == '32' ? 'selected' : '' }}>Ourense</option>
-                <option value="33" {{ old('provincia', $task?->provincia) == '33' ? 'selected' : '' }}>Asturias</option>
-                <option value="34" {{ old('provincia', $task?->provincia) == '34' ? 'selected' : '' }}>Palencia</option>
-                <option value="35" {{ old('provincia', $task?->provincia) == '35' ? 'selected' : '' }}>Las Palmas</option>
-                <option value="36" {{ old('provincia', $task?->provincia) == '36' ? 'selected' : '' }}>Pontevedra</option>
-                <option value="37" {{ old('provincia', $task?->provincia) == '37' ? 'selected' : '' }}>Salamanca</option>
-                <option value="38" {{ old('provincia', $task?->provincia) == '38' ? 'selected' : '' }}>Santa Cruz de Tenerife</option>
-                <option value="39" {{ old('provincia', $task?->provincia) == '39' ? 'selected' : '' }}>Cantabria</option>
-                <option value="40" {{ old('provincia', $task?->provincia) == '40' ? 'selected' : '' }}>Segovia</option>
-                <option value="41" {{ old('provincia', $task?->provincia) == '41' ? 'selected' : '' }}>Sevilla</option>
-                <option value="42" {{ old('provincia', $task?->provincia) == '42' ? 'selected' : '' }}>Soria</option>
-                <option value="43" {{ old('provincia', $task?->provincia) == '43' ? 'selected' : '' }}>Tarragona</option>
-                <option value="44" {{ old('provincia', $task?->provincia) == '44' ? 'selected' : '' }}>Teruel</option>
-                <option value="45" {{ old('provincia', $task?->provincia) == '45' ? 'selected' : '' }}>Toledo</option>
-                <option value="46" {{ old('provincia', $task?->provincia) == '46' ? 'selected' : '' }}>Valencia</option>
-                <option value="47" {{ old('provincia', $task?->provincia) == '47' ? 'selected' : '' }}>Valladolid</option>
-                <option value="48" {{ old('provincia', $task?->provincia) == '48' ? 'selected' : '' }}>Vizcaya</option>
-                <option value="49" {{ old('provincia', $task?->provincia) == '49' ? 'selected' : '' }}>Zamora</option>
-                <option value="50" {{ old('provincia', $task?->provincia) == '50' ? 'selected' : '' }}>Zaragoza</option>
-                <option value="51" {{ old('provincia', $task?->provincia) == '51' ? 'selected' : '' }}>Ceuta</option>
-                <option value="52" {{ old('provincia', $task?->provincia) == '52' ? 'selected' : '' }}>Melilla</option>
+              
             </select>
             {!! $errors->first('provincia', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
