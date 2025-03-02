@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ClientController;
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -24,3 +25,4 @@ require __DIR__.'/auth.php';
 
 Route::resource('posts', PostController::class);
 Route::resource('employees', EmployeeController::class);
+Route::resource('clients', ClientController::class);
