@@ -116,7 +116,7 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="fecha_realizacion" class="form-label">{{ __('Fecha Realizacion') }}</label>
-            <input type="text" name="fecha_realizacion" class="form-control @error('fecha_realizacion') is-invalid @enderror" value="{{ old('fecha_realizacion', $task?->fecha_realizacion) }}" id="fecha_realizacion" placeholder="Fecha Realizacion">
+            <input type="text" name="fecha_realizacion" class="form-control @error('fecha_realizacion') is-invalid @enderror" value="{{ old('fecha_realizacion', $task?->fecha_realizacion ? \Carbon\Carbon::parse($task->fecha_realizacion)->format('d/m/Y') : '') }}" id="fecha_realizacion" placeholder="Fecha Realizacion">
             {!! $errors->first('fecha_realizacion', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
@@ -140,3 +140,15 @@
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#fecha_realizacion').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            language: 'es',
+            startDate: new Date()
+        });
+    });
+</script>

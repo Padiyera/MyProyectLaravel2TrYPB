@@ -48,7 +48,8 @@
         $('#fecha_alta').datepicker({
             format: 'dd/mm/yyyy',
             autoclose: true,
-            todayHighlight: true
+            todayHighlight: true,
+            startDate: new Date()
         });
     });
 </script>
