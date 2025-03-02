@@ -35,9 +35,22 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ClientRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        Client::create($request->validated());
+        $request->validate([
+            'cif' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'telefono' => 'required|string|regex:/^[0-9\s\-\+]+$/|max:255',
+            'correo' => 'required|string|email|max:255',
+            'cuenta_corriente' => 'required|string|max:255',
+            'pais' => 'required|string|max:255',
+            'moneda' => 'required|string|max:255',
+            'importe_cuota_mensual' => 'required|numeric',
+        ], [
+            'telefono.regex' => 'El campo teléfono solo puede contener números, espacios, guiones y el signo más.',
+        ]);
+
+        Client::create($request->all());
 
         return Redirect::route('clients.index')
             ->with('success', 'Client created successfully.');
@@ -66,9 +79,22 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ClientRequest $request, Client $client): RedirectResponse
+    public function update(Request $request, Client $client): RedirectResponse
     {
-        $client->update($request->validated());
+        $request->validate([
+            'cif' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'telefono' => 'required|string|regex:/^[0-9\s\-\+]+$/|max:255',
+            'correo' => 'required|string|email|max:255',
+            'cuenta_corriente' => 'required|string|max:255',
+            'pais' => 'required|string|max:255',
+            'moneda' => 'required|string|max:255',
+            'importe_cuota_mensual' => 'required|numeric',
+        ], [
+            'telefono.regex' => 'El telefono solo puede contener números, espacios, guiones o el signo más.',
+        ]);
+
+        $client->update($request->all());
 
         return Redirect::route('clients.index')
             ->with('success', 'Client updated successfully');
