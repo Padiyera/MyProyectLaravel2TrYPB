@@ -8,14 +8,18 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\FeeController;
 use App\Models\User;
+use App\Http\Controllers\Auth\SocialiteController;
+use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
     return redirect()->route('tasks.index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,7 +36,14 @@ Route::get('/check-operario', function () {
     }
 });
 
-require __DIR__.'/auth.php';
+Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
+
+Route::get('/google-login', function () {
+    return view('google-login');
+})->name('google.login');
+
+require __DIR__ . '/auth.php';
 
 Route::resource('posts', PostController::class);
 Route::resource('employees', EmployeeController::class);
