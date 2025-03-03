@@ -35,23 +35,15 @@ Tasks
                             <thead class="thead">
                                 <tr>
                                     <th>Id</th>
-                                    <th>Client Id</th>
-                                    <th>Persona Contacto</th>
-                                    <th>Telefono Contacto</th>
+                                    <th>Contacto</th>
+                                    <th>Tlf Contacto</th>
                                     <th>Descripcion</th>
                                     <th>Correo Electronico</th>
-                                    <th>Direccion</th>
-                                    <th>Poblacion</th>
-                                    <th>Codigo Postal</th>
-                                    <th>Provincia</th>
+                                    <th>CP</th>
                                     <th>Estado</th>
-                                    <th>Fecha Creacion</th>
-                                    <th>Operario Encargado</th>
+                                    <th>Operario</th>
                                     <th>Fecha Realizacion</th>
-                                    <th>Anotaciones Anteriores</th>
-                                    <th>Anotaciones Posteriores</th>
-                                    <th>Fichero Resumen</th>
-
+                                    <th>Anotaciones</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -59,24 +51,23 @@ Tasks
                                 @foreach ($tasks as $task)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-
-                                    <td>{{ $task->client_id }}</td>
                                     <td>{{ $task->persona_contacto }}</td>
                                     <td>{{ $task->telefono_contacto }}</td>
                                     <td>{{ $task->descripcion }}</td>
                                     <td>{{ $task->correo_electronico }}</td>
-                                    <td>{{ $task->direccion }}</td>
-                                    <td>{{ $task->poblacion }}</td>
                                     <td>{{ $task->codigo_postal }}</td>
-                                    <td>{{ $task->provincia }}</td>
-                                    <td>{{ $task->estado }}</td>
-                                    <td>{{ $task->fecha_creacion }}</td>
+                                    <td>
+                                        @if($task->estado == 'P')
+                                        Pendiente
+                                        @elseif($task->estado == 'R')
+                                        Realizada
+                                        @elseif($task->estado == 'C')
+                                        Cancelada
+                                        @endif
+                                    </td>
                                     <td>{{ $task->operario_encargado }}</td>
                                     <td>{{ $task->fecha_realizacion }}</td>
                                     <td>{{ $task->anotaciones_anteriores }}</td>
-                                    <td>{{ $task->anotaciones_posteriores }}</td>
-                                    <td>{{ $task->fichero_resumen }}</td>
-
                                     <td>
                                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
                                             <a class="btn btn-sm btn-primary " href="{{ route('tasks.show', $task->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
