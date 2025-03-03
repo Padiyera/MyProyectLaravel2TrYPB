@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-{{ __('Create') }} Employee
+{{ __('Create') }} User
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
 
             <div class="card card-default">
                 <div class="card-header">
-                    <span class="card-title">{{ __('Create') }} Employee</span>
+                    <span class="card-title">{{ __('Create') }} User</span>
                     <div class="float-right">
                         <a class="btn btn-primary btn-sm" href="{{ route('employees.index') }}"> {{ __('Back') }}</a>
                     </div>

@@ -22,13 +22,9 @@ class EmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'dni' => 'required|string',
-			'nombre' => 'required|string',
-			'correo' => 'required|string',
-			'telefono' => 'required|string',
-			'direccion' => 'required|string',
-			'fecha_alta' => 'required',
-			'tipo' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8|max:120',
         ];
     }
 }

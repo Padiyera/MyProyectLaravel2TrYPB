@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Requests\EmployeeRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Carbon\Carbon;
@@ -17,10 +16,10 @@ class EmployeeController extends Controller
      */
     public function index(Request $request): View
     {
-        $employees = Employee::paginate();
+        $users = User::paginate();
 
-        return view('employee.index', compact('employees'))
-            ->with('i', ($request->input('page', 1) - 1) * $employees->perPage());
+        return view('employee.index', compact('users'))
+            ->with('i', ($request->input('page', 1) - 1) * $users->perPage());
     }
 
     /**
@@ -28,9 +27,9 @@ class EmployeeController extends Controller
      */
     public function create(): View
     {
-        $employee = new Employee();
+        $user = new User();
 
-        return view('employee.create', compact('employee'));
+        return view('employee.create', compact('user'));
     }
 
     /**
@@ -39,22 +38,18 @@ class EmployeeController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'dni' => 'required|string|max:255',
-            'nombre' => 'required|string|max:255',
-            'correo' => 'required|string|email|max:255',
-            'telefono' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-            'fecha_alta' => 'required|date_format:d/m/Y',
-            'tipo' => 'required|in:operario,administrador',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $data = $request->all();
-        $data['fecha_alta'] = Carbon::createFromFormat('d/m/Y', $request->fecha_alta)->format('Y-m-d');
+        $data['password'] = bcrypt($request->password);
 
-        Employee::create($data);
+        User::create($data);
 
         return Redirect::route('employees.index')
-            ->with('success', 'Empleado creado exitosamente.');
+            ->with('success', 'User created successfully.');
     }
 
     /**
@@ -62,9 +57,9 @@ class EmployeeController extends Controller
      */
     public function show($id): View
     {
-        $employee = Employee::find($id);
+        $user = User::find($id);
 
-        return view('employee.show', compact('employee'));
+        return view('employee.show', compact('user'));
     }
 
     /**
@@ -72,40 +67,40 @@ class EmployeeController extends Controller
      */
     public function edit($id): View
     {
-        $employee = Employee::find($id);
+        $user = User::find($id);
 
-        return view('employee.edit', compact('employee'));
+        return view('employee.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Employee $employee): RedirectResponse
+    public function update(Request $request, User $user): RedirectResponse
     {
         $request->validate([
-            'dni' => 'required|string|max:255',
-            'nombre' => 'required|string|max:255',
-            'correo' => 'required|string|email|max:255',
-            'telefono' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-            'fecha_alta' => 'required|date_format:d/m/Y',
-            'tipo' => 'required|in:operario,administrador',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $data = $request->all();
-        $data['fecha_alta'] = Carbon::createFromFormat('d/m/Y', $request->fecha_alta)->format('Y-m-d');
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        } else {
+            unset($data['password']);
+        }
 
-        $employee->update($data);
+        $user->update($data);
 
         return Redirect::route('employees.index')
-            ->with('success', 'Empleado actualizado exitosamente.');
+            ->with('success', 'User updated successfully.');
     }
 
     public function destroy($id): RedirectResponse
     {
-        Employee::find($id)->delete();
+        User::find($id)->delete();
 
         return Redirect::route('employees.index')
-            ->with('success', 'Employee deleted successfully');
+            ->with('success', 'User deleted successfully.');
     }
 }
