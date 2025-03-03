@@ -30,6 +30,11 @@ Tasks
                 @endif
 
                 <div class="card-body bg-white">
+                    @if (!Auth::check())
+                    <div class="alert alert-warning">
+                        Puedes crear tareas como cliente. <a href="{{ route('login') }}" class="text-muted" style="font-size: 0.9em; float: right;">Iniciar Sesión</a>
+                    </div>
+                    @endif
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead class="thead">
