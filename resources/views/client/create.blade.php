@@ -1,28 +1,31 @@
 @extends('layouts.app')
 
 @section('template_title')
-    {{ __('Create') }} Client
+{{ __('Create') }} Client
 @endsection
 
 @section('content')
-    <section class="content container-fluid">
-        <div class="row">
-            <div class="col-md-12">
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
 
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">{{ __('Create') }} Client</span>
+            <div class="card card-default">
+                <div class="card-header">
+                    <span class="card-title">{{ __('Create') }} Client</span>
+                    <div class="float-right">
+                        <a class="btn btn-primary btn-sm" href="{{ route('clients.index') }}"> {{ __('Back') }}</a>
                     </div>
-                    <div class="card-body bg-white">
-                        <form method="POST" action="{{ route('clients.store') }}"  role="form" enctype="multipart/form-data">
-                            @csrf
+                </div>
+                <div class="card-body bg-white">
+                    <form method="POST" action="{{ route('clients.store') }}" role="form" enctype="multipart/form-data">
+                        @csrf
 
-                            @include('client.form')
+                        @include('client.form')
 
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 @endsection

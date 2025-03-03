@@ -22,11 +22,12 @@ class FeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'concept' => 'required|string',
-			'issue_date' => 'required',
-			'amount' => 'required',
-			'paid' => 'required',
-			'notes' => 'string',
+            'concept' => 'required|string',
+            'issue_date' => 'required|date_format:d/m/Y',
+            'amount' => 'required|numeric',
+            'paid' => 'required|boolean',
+            'payment_date' => 'nullable|date_format:d/m/Y',
+            'notes' => 'nullable|string',
         ];
     }
 }

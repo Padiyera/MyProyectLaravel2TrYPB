@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\FeeRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Carbon\Carbon;
 
 class FeeController extends Controller
 {
@@ -37,7 +39,13 @@ class FeeController extends Controller
      */
     public function store(FeeRequest $request): RedirectResponse
     {
-        Fee::create($request->validated());
+        $data = $request->validated();
+        $data['issue_date'] = Carbon::createFromFormat('d/m/Y', $data['issue_date'])->format('Y-m-d');
+        if (!empty($data['payment_date'])) {
+            $data['payment_date'] = Carbon::createFromFormat('d/m/Y', $data['payment_date'])->format('Y-m-d');
+        }
+
+        Fee::create($data);
 
         return Redirect::route('fees.index')
             ->with('success', 'Fee created successfully.');
@@ -68,7 +76,13 @@ class FeeController extends Controller
      */
     public function update(FeeRequest $request, Fee $fee): RedirectResponse
     {
-        $fee->update($request->validated());
+        $data = $request->validated();
+        $data['issue_date'] = Carbon::createFromFormat('d/m/Y', $data['issue_date'])->format('Y-m-d');
+        if (!empty($data['payment_date'])) {
+            $data['payment_date'] = Carbon::createFromFormat('d/m/Y', $data['payment_date'])->format('Y-m-d');
+        }
+
+        $fee->update($data);
 
         return Redirect::route('fees.index')
             ->with('success', 'Fee updated successfully');
@@ -86,5 +100,12 @@ class FeeController extends Controller
     {
         $fee = Fee::find($id);
         return view('fee.print', compact('fee'));
+    }
+
+    public function download($id)
+    {
+        $fee = Fee::find($id);
+        $pdf = PDF::loadView('fee.pdf', compact('fee'));
+        return $pdf->download('factura_' . $fee->id . '.pdf');
     }
 }

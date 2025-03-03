@@ -54,7 +54,7 @@
 										<td >{{ $fee->concept }}</td>
 										<td >{{ $fee->issue_date }}</td>
 										<td >{{ $fee->amount }}</td>
-										<td >{{ $fee->paid }}</td>
+										<td >{{ $fee->paid ? 'Pagado' : 'Pendiente' }}</td>
 										<td >{{ $fee->payment_date }}</td>
 										<td >{{ $fee->notes }}</td>
 
@@ -63,6 +63,9 @@
                                                     <a class="btn btn-sm btn-primary" href="{{ route('fees.show', $fee->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
                                                     <a class="btn btn-sm btn-success" href="{{ route('fees.edit', $fee->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                     <a class="btn btn-sm btn-secondary" href="{{ route('fees.print', $fee->id) }}" target="_blank"><i class="fa fa-fw fa-print"></i> {{ __('Print') }}</a>
+                                                    @if($fee->paid)
+                                                        <a class="btn btn-sm btn-info" href="{{ route('fees.download', $fee->id) }}"><i class="fa fa-fw fa-download"></i> {{ __('Download PDF') }}</a>
+                                                    @endif
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>

@@ -26,7 +26,7 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="payment_date" class="form-label">{{ __('Fecha de pago') }}</label>
-            <input type="text" name="payment_date" class="form-control @error('payment_date') is-invalid @enderror" value="{{ old('payment_date', $fee?->payment_date) }}" id="payment_date" placeholder="Fecha de pago">
+            <input type="text" name="payment_date" class="form-control @error('payment_date') is-invalid @enderror" value="{{ old('payment_date', $fee?->payment_date ? $fee->payment_date->format('d/m/Y') : '') }}" id="payment_date" placeholder="Fecha de pago">
             {!! $errors->first('payment_date', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">

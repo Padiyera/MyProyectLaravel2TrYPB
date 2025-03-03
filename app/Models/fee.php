@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 
 /**
  * Class Fee
@@ -22,7 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Fee extends Model
 {
-    
+    use HasFactory;
+
     protected $perPage = 20;
 
     /**
@@ -32,5 +35,35 @@ class Fee extends Model
      */
     protected $fillable = ['concept', 'issue_date', 'amount', 'paid', 'payment_date', 'notes'];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'issue_date' => 'date:Y-m-d',
+        'payment_date' => 'date:Y-m-d',
+    ];
 
+    /**
+     * Get the issue date in the desired format.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getIssueDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
+
+    /**
+     * Get the payment date in the desired format.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getPaymentDateAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format('d/m/Y') : null;
+    }
 }
