@@ -100,6 +100,7 @@
             </select>
             {!! $errors->first('provincia', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        @if($userRole == 'super-admin')
         <div class="form-group mb-2 mb20">
             <label for="estado" class="form-label">{{ __('Estado') }}</label>
             <select name="estado" class="form-control @error('estado') is-invalid @enderror" id="estado">
@@ -109,6 +110,9 @@
             </select>
             {!! $errors->first('estado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        @else
+        <input type="hidden" name="estado" value="P">
+        @endif
         @if($userRole == 'super-admin')
         <div class="form-group mb-2 mb20">
             <label for="operario_encargado" class="form-label">{{ __('Operario Encargado') }}</label>

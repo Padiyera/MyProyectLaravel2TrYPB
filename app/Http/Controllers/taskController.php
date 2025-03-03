@@ -82,9 +82,9 @@ class TaskController extends Controller
             $validatedData['operario_encargado'] = 'operario por asignar';
         }
 
-        $data = $request->all();
-        $data['estado'] = 'P'; // Estado pendiente
-        $data['fecha_creacion'] = now(); // Fecha de creación actual
+        // Establecer el estado predeterminado a "Pendiente"
+        $validatedData['estado'] = 'P';
+        $validatedData['fecha_creacion'] = now(); // Fecha de creación actual
 
         Task::create($validatedData);
 
@@ -151,6 +151,8 @@ class TaskController extends Controller
         if (Auth::check() && Auth::user()->roles->pluck('name')->first() != 'super-admin') {
             // No actualizar el campo 'operario_encargado' si el usuario no es administrador
             unset($validatedData['operario_encargado']);
+            // No actualizar el campo 'estado' si el usuario no es administrador o operario
+            unset($validatedData['estado']);
         } else {
             // Asegúrate de que el valor de 'operario_encargado' se actualice solo si el usuario es administrador
             $validatedData['operario_encargado'] = $request->input('operario_encargado');
