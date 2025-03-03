@@ -27,6 +27,12 @@
                             <strong>{{ __('Email') }}:</strong>
                             {{ $user->email }}
                         </div>
+                        <div class="form-group mb-2 mb20">
+                            <strong>{{ __('Rol') }}:</strong>
+                            @foreach($user->roles as $role)
+                                {{ $role->name }}
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

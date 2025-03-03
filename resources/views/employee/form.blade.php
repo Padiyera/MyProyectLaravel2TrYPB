@@ -19,18 +19,17 @@
             <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
             <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="Confirm Password">
         </div>
+        <div class="form-group mb-2 mb20">
+            <label for="role" class="form-label">{{ __('Role') }}</label>
+            <select name="role" class="form-control @error('role') is-invalid @enderror" id="role">
+                @foreach($roles as $role)
+                    <option value="{{ $role->name }}" {{ old('role', optional($user?->roles->first())->name) == $role->name ? 'selected' : '' }}>{{ $role->name }}</option>
+                @endforeach
+            </select>
+            {!! $errors->first('role', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
     </div>
     <div class="col-md-12 mt20 mt-2">
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#fecha_alta').datepicker({
-            format: 'dd/mm/yyyy',
-            autoclose: true,
-            todayHighlight: true,
-            startDate: new Date()
-        });
-    });
-</script>

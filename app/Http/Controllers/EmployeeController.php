@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -28,8 +28,9 @@ class EmployeeController extends Controller
     public function create(): View
     {
         $user = new User();
+        $roles = Role::all();
 
-        return view('employee.create', compact('user'));
+        return view('employee.create', compact('user', 'roles'));
     }
 
     /**
@@ -41,12 +42,14 @@ class EmployeeController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string|exists:roles,name',
         ]);
 
         $data = $request->all();
         $data['password'] = bcrypt($request->password);
 
-        User::create($data);
+        $user = User::create($data);
+        $user->assignRole($request->role);
 
         return Redirect::route('employees.index')
             ->with('success', 'User created successfully.');
@@ -68,8 +71,9 @@ class EmployeeController extends Controller
     public function edit($id): View
     {
         $user = User::find($id);
+        $roles = Role::all();
 
-        return view('employee.edit', compact('user'));
+        return view('employee.edit', compact('user', 'roles'));
     }
 
     /**
@@ -81,6 +85,7 @@ class EmployeeController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'required|string|exists:roles,name',
         ]);
 
         $data = $request->all();
@@ -91,6 +96,7 @@ class EmployeeController extends Controller
         }
 
         $user->update($data);
+        $user->syncRoles($request->role);
 
         return Redirect::route('employees.index')
             ->with('success', 'User updated successfully.');

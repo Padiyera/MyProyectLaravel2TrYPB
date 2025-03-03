@@ -35,6 +35,7 @@ Users
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Rol</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -44,6 +45,11 @@ Users
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>
+                                        @foreach($user->roles as $role)
+                                        {{ $role->name }}
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <form action="{{ route('employees.destroy', $user->id) }}" method="POST">
                                             <a class="btn btn-sm btn-primary" href="{{ route('employees.show', $user->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
