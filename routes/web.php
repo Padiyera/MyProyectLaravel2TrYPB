@@ -10,8 +10,8 @@ use App\Http\Controllers\FeeController;
 use App\Models\User;
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
-})->middleware('auth');
+    return redirect()->route('tasks.index');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -37,7 +37,8 @@ require __DIR__.'/auth.php';
 Route::resource('posts', PostController::class);
 Route::resource('employees', EmployeeController::class);
 Route::resource('clients', ClientController::class);
-Route::resource('tasks', TaskController::class);
+Route::resource('tasks', TaskController::class)->except(['destroy']);
 Route::resource('fees', FeeController::class);
 Route::get('fees/{id}/print', [FeeController::class, 'print'])->name('fees.print');
 Route::get('fees/{id}/download', [FeeController::class, 'download'])->name('fees.download');
+Route::delete('tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');

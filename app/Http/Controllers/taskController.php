@@ -21,7 +21,7 @@ class TaskController extends Controller
      */
     public function index(Request $request): View
     {
-        $userRole = Auth::user()->roles->pluck('name')->first();
+        $userRole = Auth::check() ? Auth::user()->roles->pluck('name')->first() : null;
 
         if ($userRole == 'operario') {
             $tasks = Task::where('operario_encargado', Auth::user()->name)->paginate();
@@ -40,7 +40,7 @@ class TaskController extends Controller
     {
         $task = new Task();
         $operarios = User::role('operario')->get();
-        $userRole = Auth::user()->roles->pluck('name')->first();
+        $userRole = Auth::check() ? Auth::user()->roles->pluck('name')->first() : 'guest';
 
         return view('task.create', compact('task', 'operarios', 'userRole'));
     }
@@ -78,7 +78,7 @@ class TaskController extends Controller
         $validatedData['fecha_realizacion'] = Carbon::createFromFormat('d/m/Y', $validatedData['fecha_realizacion'])->format('Y-m-d');
 
         // Asignar valor predeterminado si el usuario no es administrador
-        if (Auth::user()->roles->pluck('name')->first() != 'super-admin') {
+        if (Auth::check() && Auth::user()->roles->pluck('name')->first() != 'super-admin') {
             $validatedData['operario_encargado'] = 'operario por asignar';
         }
 
@@ -109,7 +109,7 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         $operarios = User::role('operario')->get();
-        $userRole = Auth::user()->roles->pluck('name')->first();
+        $userRole = Auth::check() ? Auth::user()->roles->pluck('name')->first() : 'guest';
 
         return view('task.edit', compact('task', 'operarios', 'userRole'));
     }
@@ -148,8 +148,9 @@ class TaskController extends Controller
         $validatedData['fecha_realizacion'] = Carbon::createFromFormat('d/m/Y', $validatedData['fecha_realizacion'])->format('Y-m-d');
 
         // Asignar valor predeterminado si el usuario no es administrador
-        if (Auth::user()->roles->pluck('name')->first() != 'super-admin') {
-            $validatedData['operario_encargado'] = 'operario por asignar';
+        if (Auth::check() && Auth::user()->roles->pluck('name')->first() != 'super-admin') {
+            // No actualizar el campo 'operario_encargado' si el usuario no es administrador
+            unset($validatedData['operario_encargado']);
         } else {
             // Asegúrate de que el valor de 'operario_encargado' se actualice solo si el usuario es administrador
             $validatedData['operario_encargado'] = $request->input('operario_encargado');
