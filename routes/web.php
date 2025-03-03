@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\FeeController;
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -28,3 +29,4 @@ Route::resource('posts', PostController::class);
 Route::resource('employees', EmployeeController::class);
 Route::resource('clients', ClientController::class);
 Route::resource('tasks', TaskController::class);
+Route::resource('fees', FeeController::class);
