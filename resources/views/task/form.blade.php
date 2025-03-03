@@ -110,18 +110,18 @@
             {!! $errors->first('estado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         @if($userRole == 'super-admin')
-            <div class="form-group mb-2 mb20">
-                <label for="operario_encargado" class="form-label">{{ __('Operario Encargado') }}</label>
-                <select name="operario_encargado" class="form-control @error('operario_encargado') is-invalid @enderror" id="operario_encargado">
-                    <option value="">{{ __('Seleccionar Operario') }}</option>
-                    @foreach($operarios as $operario)
-                        <option value="{{ $operario->name }}" {{ old('operario_encargado', $task?->operario_encargado) == $operario->name ? 'selected' : '' }}>{{ $operario->name }}</option>
-                    @endforeach
-                </select>
-                {!! $errors->first('operario_encargado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-            </div>
+        <div class="form-group mb-2 mb20">
+            <label for="operario_encargado" class="form-label">{{ __('Operario Encargado') }}</label>
+            <select name="operario_encargado" class="form-control @error('operario_encargado') is-invalid @enderror" id="operario_encargado">
+                <option value="">{{ __('Seleccionar Operario') }}</option>
+                @foreach($operarios as $operario)
+                <option value="{{ $operario->name }}" {{ old('operario_encargado', $task?->operario_encargado) == $operario->name ? 'selected' : '' }}>{{ $operario->name }}</option>
+                @endforeach
+            </select>
+            {!! $errors->first('operario_encargado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
         @else
-            <input type="hidden" name="operario_encargado" value="{{ $task?->operario_encargado ?? 'operador' }}">
+        <input type="hidden" name="operario_encargado" value="{{ $task?->operario_encargado ?? 'operador' }}">
         @endif
         <div class="form-group mb-2 mb20">
             <label for="fecha_realizacion" class="form-label">{{ __('Fecha Realizacion') }}</label>
@@ -133,11 +133,13 @@
             <input type="text" name="anotaciones_anteriores" class="form-control @error('anotaciones_anteriores') is-invalid @enderror" value="{{ old('anotaciones_anteriores', $task?->anotaciones_anteriores) }}" id="anotaciones_anteriores" placeholder="Anotaciones Anteriores">
             {!! $errors->first('anotaciones_anteriores', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        @can('ver tareas')
         <div class="form-group mb-2 mb20">
             <label for="anotaciones_posteriores" class="form-label">{{ __('Anotaciones Posteriores') }}</label>
             <input type="text" name="anotaciones_posteriores" class="form-control @error('anotaciones_posteriores') is-invalid @enderror" value="{{ old('anotaciones_posteriores', $task?->anotaciones_posteriores) }}" id="anotaciones_posteriores" placeholder="Anotaciones Posteriores">
             {!! $errors->first('anotaciones_posteriores', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        @endcan
         <div class="form-group mb-2 mb20">
             <label for="fichero_resumen" class="form-label">{{ __('Fichero Resumen') }}</label>
             <input type="text" name="fichero_resumen" class="form-control @error('fichero_resumen') is-invalid @enderror" value="{{ old('fichero_resumen', $task?->fichero_resumen) }}" id="fichero_resumen" placeholder="Fichero Resumen">
@@ -151,7 +153,7 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('#fecha_realizacion').datepicker({
             format: 'dd/mm/yyyy',
             autoclose: true,
