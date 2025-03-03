@@ -60,8 +60,9 @@
 
                                             <td>
                                                 <form action="{{ route('fees.destroy', $fee->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('fees.show', $fee->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                    <a class="btn btn-sm btn-primary" href="{{ route('fees.show', $fee->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
                                                     <a class="btn btn-sm btn-success" href="{{ route('fees.edit', $fee->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                                    <a class="btn btn-sm btn-secondary" href="{{ route('fees.print', $fee->id) }}" target="_blank"><i class="fa fa-fw fa-print"></i> {{ __('Print') }}</a>
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>

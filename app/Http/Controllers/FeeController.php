@@ -81,4 +81,10 @@ class FeeController extends Controller
         return Redirect::route('fees.index')
             ->with('success', 'Fee deleted successfully');
     }
+
+    public function print($id)
+    {
+        $fee = Fee::find($id);
+        return view('fee.print', compact('fee'));
+    }
 }

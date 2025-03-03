@@ -30,3 +30,4 @@ Route::resource('employees', EmployeeController::class);
 Route::resource('clients', ClientController::class);
 Route::resource('tasks', TaskController::class);
 Route::resource('fees', FeeController::class);
+Route::get('fees/{id}/print', [FeeController::class, 'print'])->name('fees.print');
