@@ -57,7 +57,6 @@
 										<td >{{ $fee->paid ? 'Pagado' : 'Pendiente' }}</td>
 										<td >{{ $fee->payment_date }}</td>
 										<td >{{ $fee->notes }}</td>
-
                                             <td>
                                                 <form action="{{ route('fees.destroy', $fee->id) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary" href="{{ route('fees.show', $fee->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
