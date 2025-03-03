@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\task;
+use App\Models\Task;
 use Illuminate\Auth\Access\Response;
 
 class TaskPolicy
@@ -13,15 +13,15 @@ class TaskPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->can('ver tareas');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, task $task): bool
+    public function view(User $user, Task $task): bool
     {
-        return false;
+        return $user->can('ver tareas');
     }
 
     /**
@@ -29,29 +29,29 @@ class TaskPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can('crear tareas');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, task $task): bool
+    public function update(User $user, Task $task): bool
     {
-        return false;
+        return $user->can('editar tareas');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, task $task): bool
+    public function delete(User $user, Task $task): bool
     {
-        return false;
+        return $user->can('eliminar tareas');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, task $task): bool
+    public function restore(User $user, Task $task): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class TaskPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, task $task): bool
+    public function forceDelete(User $user, Task $task): bool
     {
         return false;
     }
