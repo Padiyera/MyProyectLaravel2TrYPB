@@ -2,7 +2,7 @@
     <div class="col-md-12">
         
         <div class="form-group mb-2 mb20">
-            <label for="dni" class="form-label">{{ __('Dni') }}</label>
+            <label for="dni" class="form-label">{{ __('Cif') }}</label>
             <input type="text" name="dni" class="form-control @error('dni') is-invalid @enderror" value="{{ old('dni', $employee?->dni) }}" id="dni" placeholder="Dni">
             {!! $errors->first('dni', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>

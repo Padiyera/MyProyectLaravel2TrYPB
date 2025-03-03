@@ -35,7 +35,7 @@ Employees
                             <thead class="thead">
                                 <tr>
                                     <th>Id</th>
-                                    <th>Dni</th>
+                                    <th>Cif</th>
                                     <th>Nombre</th>
                                     <th>Correo</th>
                                     <th>Telefono</th>
