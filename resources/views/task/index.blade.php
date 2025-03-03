@@ -70,11 +70,17 @@ Tasks
                                     <td>{{ $task->anotaciones_anteriores }}</td>
                                     <td>
                                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
+                                            @can('ver tareas')
                                             <a class="btn btn-sm btn-primary " href="{{ route('tasks.show', $task->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                            @endcan
+                                            @can('editar tareas')
                                             <a class="btn btn-sm btn-success" href="{{ route('tasks.edit', $task->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                            @endcan
+                                            @can('eliminar tareas')
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
+                                            @endcan
                                         </form>
                                     </td>
                                 </tr>

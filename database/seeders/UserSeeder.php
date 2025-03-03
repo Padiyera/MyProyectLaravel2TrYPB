@@ -16,20 +16,33 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         /*---------------------permisos---------------- */
+        Permission::create(['name' => 'usuarios']);
         Permission::create(['name' => 'ver usuarios']);
         Permission::create(['name' => 'crear usuarios']);
         Permission::create(['name' => 'editar usuarios']);
         Permission::create(['name' => 'eliminar usuarios']);
 
+        Permission::create(['name' => 'tasks']);
         Permission::create(['name' => 'ver tareas']);
         Permission::create(['name' => 'crear tareas']);
         Permission::create(['name' => 'editar tareas']);
         Permission::create(['name' => 'eliminar tareas']);
 
+        Permission::create(['name' => 'clients']);
         Permission::create(['name' => 'ver clientes']);
         Permission::create(['name' => 'crear clientes']);
         Permission::create(['name' => 'editar clientes']);
         Permission::create(['name' => 'eliminar clientes']);
+
+        Permission::create(['name' => 'fees']);
+        Permission::create(['name' => 'ver fees']);
+        Permission::create(['name' => 'crear fees']);
+        Permission::create(['name' => 'editar fees']);
+        Permission::create(['name' => 'eliminar fees']);
+
+        Permission::create(['name' => 'perfil']);
+        Permission::create(['name' => 'ver perfil']);
+        Permission::create(['name' => 'editar perfil']);
         /*---------------------admin---------------- */
         //creo usuario
         $adminUser = User::query()->create([
@@ -56,6 +69,13 @@ class UserSeeder extends Seeder
         ]);
         $roleOperario = Role::create(['name' => 'operario']);
         $operarioUser->assignRole($roleOperario);
-        $roleOperario->syncPermissions(['ver tareas']);  
+        $roleOperario->syncPermissions([
+            'ver tareas',
+            'editar tareas',
+            'tasks',
+            'perfil',
+            'ver perfil',
+            'editar perfil'
+        ]);
     }
 }

@@ -109,11 +109,20 @@
             </select>
             {!! $errors->first('estado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-        <div class="form-group mb-2 mb20">
-            <label for="operario_encargado" class="form-label">{{ __('Operario Encargado') }}</label>
-            <input type="text" name="operario_encargado" class="form-control @error('operario_encargado') is-invalid @enderror" value="{{ old('operario_encargado', $task?->operario_encargado) }}" id="operario_encargado" placeholder="Operario Encargado">
-            {!! $errors->first('operario_encargado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
+        @if($userRole == 'super-admin')
+            <div class="form-group mb-2 mb20">
+                <label for="operario_encargado" class="form-label">{{ __('Operario Encargado') }}</label>
+                <select name="operario_encargado" class="form-control @error('operario_encargado') is-invalid @enderror" id="operario_encargado">
+                    <option value="">{{ __('Seleccionar Operario') }}</option>
+                    @foreach($operarios as $operario)
+                        <option value="{{ $operario->name }}" {{ old('operario_encargado', $task?->operario_encargado) == $operario->name ? 'selected' : '' }}>{{ $operario->name }}</option>
+                    @endforeach
+                </select>
+                {!! $errors->first('operario_encargado', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            </div>
+        @else
+            <input type="hidden" name="operario_encargado" value="{{ $task?->operario_encargado ?? 'operador' }}">
+        @endif
         <div class="form-group mb-2 mb20">
             <label for="fecha_realizacion" class="form-label">{{ __('Fecha Realizacion') }}</label>
             <input type="text" name="fecha_realizacion" class="form-control @error('fecha_realizacion') is-invalid @enderror" value="{{ old('fecha_realizacion', $task?->fecha_realizacion ? \Carbon\Carbon::parse($task->fecha_realizacion)->format('d/m/Y') : '') }}" id="fecha_realizacion" placeholder="Fecha Realizacion">

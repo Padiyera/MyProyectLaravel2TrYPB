@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -17,7 +21,13 @@ class TaskController extends Controller
      */
     public function index(Request $request): View
     {
-        $tasks = Task::paginate();
+        $userRole = Auth::user()->roles->pluck('name')->first();
+
+        if ($userRole == 'operario') {
+            $tasks = Task::where('operario_encargado', Auth::user()->name)->paginate();
+        } else {
+            $tasks = Task::paginate();
+        }
 
         return view('task.index', compact('tasks'))
             ->with('i', ($request->input('page', 1) - 1) * $tasks->perPage());
@@ -29,8 +39,10 @@ class TaskController extends Controller
     public function create(): View
     {
         $task = new Task();
+        $operarios = User::role('operario')->get();
+        $userRole = Auth::user()->roles->pluck('name')->first();
 
-        return view('task.create', compact('task'));
+        return view('task.create', compact('task', 'operarios', 'userRole'));
     }
 
     /**
@@ -38,7 +50,7 @@ class TaskController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'client_id' => 'required|exists:clients,id',
             'persona_contacto' => 'required|string|max:255',
             'telefono_contacto' => 'required|string|regex:/^[0-9\s\-\+]+$/|max:255',
@@ -48,7 +60,8 @@ class TaskController extends Controller
             'poblacion' => 'required|string|max:255',
             'codigo_postal' => 'required|string|size:5',
             'provincia' => 'required|integer',
-            'fecha_realizacion' => 'required|date|after:today',
+            'fecha_realizacion' => 'required|date_format:d/m/Y',
+            'operario_encargado' => 'required|string',
             'anotaciones_anteriores' => 'nullable|string',
             'fichero_resumen' => 'nullable|string',
         ], [
@@ -61,11 +74,19 @@ class TaskController extends Controller
             return Redirect::back()->withErrors(['client_id' => 'El ID del cliente o el teléfono no coinciden con los datos del cliente.']);
         }
 
+        // Convertir la fecha al formato correcto
+        $validatedData['fecha_realizacion'] = Carbon::createFromFormat('d/m/Y', $validatedData['fecha_realizacion'])->format('Y-m-d');
+
+        // Asignar valor predeterminado si el usuario no es administrador
+        if (Auth::user()->roles->pluck('name')->first() != 'super-admin') {
+            $validatedData['operario_encargado'] = 'operario por asignar';
+        }
+
         $data = $request->all();
         $data['estado'] = 'P'; // Estado pendiente
         $data['fecha_creacion'] = now(); // Fecha de creación actual
 
-        Task::create($data);
+        Task::create($validatedData);
 
         return Redirect::route('tasks.index')
             ->with('success', 'Task created successfully.');
@@ -87,8 +108,10 @@ class TaskController extends Controller
     public function edit($id): View
     {
         $task = Task::find($id);
+        $operarios = User::role('operario')->get();
+        $userRole = Auth::user()->roles->pluck('name')->first();
 
-        return view('task.edit', compact('task'));
+        return view('task.edit', compact('task', 'operarios', 'userRole'));
     }
 
     /**
@@ -96,7 +119,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task): RedirectResponse
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'client_id' => 'required|exists:clients,id',
             'persona_contacto' => 'required|string|max:255',
             'telefono_contacto' => 'required|string|regex:/^[0-9\s\-\+]+$/|max:255',
@@ -107,7 +130,7 @@ class TaskController extends Controller
             'codigo_postal' => 'required|string|size:5',
             'provincia' => 'required|integer',
             'estado' => 'required|in:P,R,C',
-            'fecha_realizacion' => 'required|date|after:today',
+            'fecha_realizacion' => 'required|date_format:d/m/Y',
             'anotaciones_anteriores' => 'nullable|string',
             'anotaciones_posteriores' => 'nullable|string',
             'fichero_resumen' => 'nullable|string',
@@ -121,7 +144,18 @@ class TaskController extends Controller
             return Redirect::back()->withErrors(['client_id' => 'El ID del cliente o el teléfono no coinciden con los datos del cliente.']);
         }
 
-        $task->update($request->all());
+        // Convertir la fecha al formato correcto
+        $validatedData['fecha_realizacion'] = Carbon::createFromFormat('d/m/Y', $validatedData['fecha_realizacion'])->format('Y-m-d');
+
+        // Asignar valor predeterminado si el usuario no es administrador
+        if (Auth::user()->roles->pluck('name')->first() != 'super-admin') {
+            $validatedData['operario_encargado'] = 'operario por asignar';
+        } else {
+            // Asegúrate de que el valor de 'operario_encargado' se actualice solo si el usuario es administrador
+            $validatedData['operario_encargado'] = $request->input('operario_encargado');
+        }
+
+        $task->update($validatedData);
 
         return Redirect::route('tasks.index')
             ->with('success', 'Task updated successfully');
