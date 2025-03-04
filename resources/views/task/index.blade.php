@@ -35,6 +35,7 @@ Tasks
                         Puedes crear tareas como cliente. <a href="{{ route('login') }}" class="text-muted" style="font-size: 0.9em; float: right;">Iniciar Sesión</a>
                     </div>
                     @endif
+                    @can('tasks')
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead class="thead">
@@ -93,6 +94,7 @@ Tasks
                             </tbody>
                         </table>
                     </div>
+                    @endcan
                 </div>
             </div>
             {!! $tasks->withQueryString()->links() !!}
