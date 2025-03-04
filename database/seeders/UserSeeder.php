@@ -43,6 +43,8 @@ class UserSeeder extends Seeder
         Permission::create(['name' => 'perfil']);
         Permission::create(['name' => 'ver perfil']);
         Permission::create(['name' => 'editar perfil']);
+
+        Permission::create(['name' => 'contenido']);
         /*---------------------admin---------------- */
         //creo usuario
         $adminUser = User::query()->create([

@@ -1,3 +1,4 @@
+@can('contenido')
 @extends('layouts.app')
 
 @section('template_title')
@@ -82,3 +83,9 @@ Clients
     </div>
 </div>
 @endsection
+@else
+<div class="alert alert-danger m-4">
+    No tienes los permisos necesarios.
+</div>
+<a href="{{ url('/') }}" class="btn btn-primary m-4">Volver al inicio</a>
+@endcan
