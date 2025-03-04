@@ -94,11 +94,12 @@ Tasks
                             </tbody>
                         </table>
                     </div>
-                    @endcan
+                    
                 </div>
             </div>
             {!! $tasks->withQueryString()->links() !!}
         </div>
+        @endcan
     </div>
 </div>
 @endsection
