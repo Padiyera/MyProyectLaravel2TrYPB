@@ -24,9 +24,9 @@ class TaskController extends Controller
         $userRole = Auth::check() ? Auth::user()->roles->pluck('name')->first() : null;
 
         if ($userRole == 'operario') {
-            $tasks = Task::where('operario_encargado', Auth::user()->name)->paginate();
+            $tasks = Task::where('operario_encargado', Auth::user()->name)->paginate(5);
         } else {
-            $tasks = Task::paginate();
+            $tasks = Task::paginate(5);
         }
 
         return view('task.index', compact('tasks'))

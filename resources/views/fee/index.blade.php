@@ -36,14 +36,12 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>ID</th>
-                                        
-									<th >Concept</th>
-									<th >Issue Date</th>
-									<th >Amount</th>
-									<th >Paid</th>
-									<th >Payment Date</th>
-									<th >Notes</th>
-
+                                        <th>Concept</th>
+                                        <th>Issue Date</th>
+                                        <th>Amount</th>
+                                        <th>Paid</th>
+                                        <th>Payment Date</th>
+                                        <th>Notes</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -51,13 +49,12 @@
                                     @foreach ($fees as $fee)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
-										<td >{{ $fee->concept }}</td>
-										<td >{{ $fee->issue_date }}</td>
-										<td >{{ $fee->amount }}</td>
-										<td >{{ $fee->paid ? 'Pagado' : 'Pendiente' }}</td>
-										<td >{{ $fee->payment_date }}</td>
-										<td >{{ $fee->notes }}</td>
+                                            <td>{{ $fee->concept }}</td>
+                                            <td>{{ $fee->issue_date }}</td>
+                                            <td>{{ $fee->amount }}</td>
+                                            <td>{{ $fee->paid ? 'Pagado' : 'Pendiente' }}</td>
+                                            <td>{{ $fee->payment_date }}</td>
+                                            <td>{{ $fee->notes }}</td>
                                             <td>
                                                 <form action="{{ route('fees.destroy', $fee->id) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary" href="{{ route('fees.show', $fee->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>

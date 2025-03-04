@@ -18,7 +18,7 @@ class FeeController extends Controller
      */
     public function index(Request $request): View
     {
-        $fees = Fee::paginate();
+        $fees = Fee::paginate(5);
 
         return view('fee.index', compact('fees'))
             ->with('i', ($request->input('page', 1) - 1) * $fees->perPage());
