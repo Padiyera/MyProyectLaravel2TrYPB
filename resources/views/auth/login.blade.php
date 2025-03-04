@@ -1,4 +1,17 @@
 <x-guest-layout>
+    <style>
+        .custom-login-button {
+            background-color: #333; /* Un poco más claro que el negro puro */
+            color: white;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+
+        .custom-login-button:hover {
+            background-color: #333; /* Mantener el mismo color */
+            opacity: 0.8; /* Añadir transparencia */
+        }
+    </style>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -37,7 +50,7 @@
             </a>
             @endif
 
-            <x-primary-button class="ms-3">
+            <x-primary-button class="ms-3 custom-login-button">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
