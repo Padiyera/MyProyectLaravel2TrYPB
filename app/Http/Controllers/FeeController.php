@@ -68,6 +68,15 @@ class FeeController extends Controller
     {
         $fee = Fee::find($id);
 
+        if ($fee->payment_date) {
+            try {
+                $fee->payment_date = Carbon::createFromFormat('Y-m-d', $fee->payment_date)->format('d/m/Y');
+            } catch (\Exception $e) {
+                // Manejo de error si el formato de la fecha no es válido
+                $fee->payment_date = null;
+            }
+        }
+
         return view('fee.edit', compact('fee'));
     }
 
