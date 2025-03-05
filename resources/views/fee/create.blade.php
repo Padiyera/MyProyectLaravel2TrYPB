@@ -21,7 +21,7 @@
                     <form method="POST" action="{{ route('fees.store') }}" role="form" enctype="multipart/form-data">
                         @csrf
 
-                        @include('fee.form')
+                        @include('fee.form', ['clients' => $clients])
 
                     </form>
                 </div>

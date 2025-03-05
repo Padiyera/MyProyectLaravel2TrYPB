@@ -28,6 +28,7 @@ class FeeRequest extends FormRequest
             'paid' => 'required|boolean',
             'payment_date' => 'nullable|date_format:d/m/Y',
             'notes' => 'nullable|string',
+            'client_name' => 'required|string', // Añadir esta línea
         ];
     }
 }

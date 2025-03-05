@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container mt-5">
         <div class="card">
@@ -20,6 +22,7 @@
                 <h3>Factura #{{ $fee->id }}</h3>
             </div>
             <div class="card-body">
+                <p><strong>Nombre del Cliente:</strong> {{ $fee->client_name }}</p>
                 <p><strong>Concepto:</strong> {{ $fee->concept }}</p>
                 <p><strong>Fecha de emisión:</strong> {{ $fee->issue_date }}</p>
                 <p><strong>Importe:</strong> {{ $fee->amount }}</p>
@@ -34,4 +37,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -33,7 +33,7 @@ class Fee extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['concept', 'issue_date', 'amount', 'paid', 'payment_date', 'notes'];
+    protected $fillable = ['concept', 'issue_date', 'amount', 'paid', 'payment_date', 'notes', 'client_name'];
 
     /**
      * The attributes that should be cast to native types.
@@ -65,5 +65,13 @@ class Fee extends Model
     public function getPaymentDateAttribute($value)
     {
         return $value ? Carbon::parse($value)->format('d/m/Y') : null;
+    }
+
+    /**
+     * Get the client that owns the fee.
+     */
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_name', 'nombre');
     }
 }

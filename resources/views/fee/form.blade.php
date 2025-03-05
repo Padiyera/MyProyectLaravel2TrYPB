@@ -34,6 +34,15 @@
             <input type="text" name="notes" class="form-control @error('notes') is-invalid @enderror" value="{{ old('notes', $fee?->notes) }}" id="notes" placeholder="Notas">
             {!! $errors->first('notes', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
+        <div class="form-group mb-2 mb20">
+            <label for="client_name" class="form-label">{{ __('Nombre del Cliente') }}</label>
+            <select name="client_name" class="form-control @error('client_name') is-invalid @enderror" id="client_name">
+                @foreach($clients as $client)
+                    <option value="{{ $client->nombre }}" {{ old('client_name', $fee?->client_name) == $client->nombre ? 'selected' : '' }}>{{ $client->nombre }}</option>
+                @endforeach
+            </select>
+            {!! $errors->first('client_name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+        </div>
     </div>
     <div class="col-md-12 mt20 mt-2">
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>

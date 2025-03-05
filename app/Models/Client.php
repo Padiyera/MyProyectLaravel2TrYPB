@@ -34,5 +34,9 @@ class Client extends Model
      */
     protected $fillable = ['cif', 'nombre', 'telefono', 'correo', 'cuenta_corriente', 'pais', 'moneda', 'importe_cuota_mensual'];
 
+    public function fees()
+    {
+        return $this->hasMany(Fee::class, 'client_name', 'nombre');
+    }
 
 }

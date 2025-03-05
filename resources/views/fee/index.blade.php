@@ -36,6 +36,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>ID</th>
+                                        <th>Client Name</th>
                                         <th>Concept</th>
                                         <th>Issue Date</th>
                                         <th>Amount</th>
@@ -49,6 +50,7 @@
                                     @foreach ($fees as $fee)
                                         <tr>
                                             <td>{{ ++$i }}</td>
+                                            <td>{{ $fee->client_name }}</td>
                                             <td>{{ $fee->concept }}</td>
                                             <td>{{ $fee->issue_date }}</td>
                                             <td>{{ $fee->amount }}</td>

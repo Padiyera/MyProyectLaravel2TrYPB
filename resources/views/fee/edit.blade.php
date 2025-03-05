@@ -22,7 +22,7 @@
                         {{ method_field('PATCH') }}
                         @csrf
 
-                        @include('fee.form')
+                        @include('fee.form', ['clients' => $clients])
 
                     </form>
                 </div>

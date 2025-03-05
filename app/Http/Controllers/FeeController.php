@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
+use App\Models\Client;
 
 class FeeController extends Controller
 {
@@ -30,8 +31,9 @@ class FeeController extends Controller
     public function create(): View
     {
         $fee = new Fee();
+        $clients = Client::all();
 
-        return view('fee.create', compact('fee'));
+        return view('fee.create', compact('fee', 'clients'));
     }
 
     /**
@@ -44,6 +46,9 @@ class FeeController extends Controller
         if (!empty($data['payment_date'])) {
             $data['payment_date'] = Carbon::createFromFormat('d/m/Y', $data['payment_date'])->format('Y-m-d');
         }
+
+        // Asegúrate de que el nombre del cliente se guarde
+        $data['client_name'] = $request->input('client_name');
 
         Fee::create($data);
 
@@ -67,6 +72,7 @@ class FeeController extends Controller
     public function edit($id): View
     {
         $fee = Fee::find($id);
+        $clients = Client::all();
 
         if ($fee->payment_date) {
             try {
@@ -77,7 +83,7 @@ class FeeController extends Controller
             }
         }
 
-        return view('fee.edit', compact('fee'));
+        return view('fee.edit', compact('fee', 'clients'));
     }
 
     /**
@@ -90,6 +96,9 @@ class FeeController extends Controller
         if (!empty($data['payment_date'])) {
             $data['payment_date'] = Carbon::createFromFormat('d/m/Y', $data['payment_date'])->format('Y-m-d');
         }
+
+        // Asegúrate de que el nombre del cliente se actualice
+        $data['client_name'] = $request->input('client_name');
 
         $fee->update($data);
 
