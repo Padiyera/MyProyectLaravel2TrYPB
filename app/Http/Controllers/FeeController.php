@@ -19,7 +19,13 @@ class FeeController extends Controller
      */
     public function index(Request $request): View
     {
-        $fees = Fee::paginate(5);
+        $query = Fee::query();
+
+        if ($request->has('client_name') && $request->input('client_name') != '') {
+            $query->where('client_name', 'like', '%' . $request->input('client_name') . '%');
+        }
+
+        $fees = $query->paginate(5);
 
         return view('fee.index', compact('fees'))
             ->with('i', ($request->input('page', 1) - 1) * $fees->perPage());

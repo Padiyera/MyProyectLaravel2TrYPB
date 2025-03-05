@@ -31,7 +31,14 @@
                     @endif
 
                     <div class="card-body bg-white">
-                        <div class="table-responsive">
+                        <form method="GET" action="{{ route('fees.index') }}">
+                            <div class="form-group">
+                                <input type="text" name="client_name" class="form-control" placeholder="Buscar por nombre de cliente" value="{{ request('client_name') }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                            <a href="{{ route('fees.index') }}" class="btn btn-secondary">Mostrar Todos</a>
+                        </form>
+                        <div class="table-responsive mt-3">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
