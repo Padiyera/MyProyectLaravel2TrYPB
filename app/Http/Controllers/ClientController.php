@@ -27,9 +27,31 @@ class ClientController extends Controller
      */
     public function create(): View
     {
+        $countries = [
+            'España' => 'EUR',
+            'Italia' => 'EUR',
+            'Alemania' => 'EUR',
+            'Francia' => 'EUR',
+            'Andorra' => 'EUR',
+            'Estados Unidos' => 'USD',
+            'Reino Unido' => 'GBP',
+            'Japón' => 'JPY',
+            'México' => 'MXN',
+            'Canadá' => 'CAD',
+            'Australia' => 'AUD',
+            'China' => 'CNY',
+            'India' => 'INR',
+            'Brasil' => 'BRL',
+            'Rusia' => 'RUB',
+            'Sudáfrica' => 'ZAR',
+            'Argentina' => 'ARS',
+            'Chile' => 'CLP',
+            'Colombia' => 'COP',
+        ];
+
         $client = new Client();
 
-        return view('client.create', compact('client'));
+        return view('client.create', compact('client', 'countries'));
     }
 
     /**
@@ -37,6 +59,28 @@ class ClientController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $countries = [
+            'España' => 'EUR',
+            'Italia' => 'EUR',
+            'Alemania' => 'EUR',
+            'Francia' => 'EUR',
+            'Andorra' => 'EUR',
+            'Estados Unidos' => 'USD',
+            'Reino Unido' => 'GBP',
+            'Japón' => 'JPY',
+            'México' => 'MXN',
+            'Canadá' => 'CAD',
+            'Australia' => 'AUD',
+            'China' => 'CNY',
+            'India' => 'INR',
+            'Brasil' => 'BRL',
+            'Rusia' => 'RUB',
+            'Sudáfrica' => 'ZAR',
+            'Argentina' => 'ARS',
+            'Chile' => 'CLP',
+            'Colombia' => 'COP',
+        ];
+
         $request->validate([
             'cif' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
@@ -44,13 +88,15 @@ class ClientController extends Controller
             'correo' => 'required|string|email|max:255',
             'cuenta_corriente' => 'required|string|max:255',
             'pais' => 'required|string|max:255',
-            'moneda' => 'required|string|max:255',
             'importe_cuota_mensual' => 'required|numeric',
         ], [
             'telefono.regex' => 'El campo teléfono solo puede contener números, espacios, guiones y el signo más.',
         ]);
 
-        Client::create($request->all());
+        $data = $request->all();
+        $data['moneda'] = $countries[$data['pais']] ?? '';
+
+        Client::create($data);
 
         return Redirect::route('clients.index')
             ->with('success', 'Client created successfully.');
@@ -71,9 +117,31 @@ class ClientController extends Controller
      */
     public function edit($id): View
     {
+        $countries = [
+            'España' => 'EUR',
+            'Italia' => 'EUR',
+            'Alemania' => 'EUR',
+            'Francia' => 'EUR',
+            'Andorra' => 'EUR',
+            'Estados Unidos' => 'USD',
+            'Reino Unido' => 'GBP',
+            'Japón' => 'JPY',
+            'México' => 'MXN',
+            'Canadá' => 'CAD',
+            'Australia' => 'AUD',
+            'China' => 'CNY',
+            'India' => 'INR',
+            'Brasil' => 'BRL',
+            'Rusia' => 'RUB',
+            'Sudáfrica' => 'ZAR',
+            'Argentina' => 'ARS',
+            'Chile' => 'CLP',
+            'Colombia' => 'COP',
+        ];
+
         $client = Client::find($id);
 
-        return view('client.edit', compact('client'));
+        return view('client.edit', compact('client', 'countries'));
     }
 
     /**
@@ -81,6 +149,28 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client): RedirectResponse
     {
+        $countries = [
+            'España' => 'EUR',
+            'Italia' => 'EUR',
+            'Alemania' => 'EUR',
+            'Francia' => 'EUR',
+            'Andorra' => 'EUR',
+            'Estados Unidos' => 'USD',
+            'Reino Unido' => 'GBP',
+            'Japón' => 'JPY',
+            'México' => 'MXN',
+            'Canadá' => 'CAD',
+            'Australia' => 'AUD',
+            'China' => 'CNY',
+            'India' => 'INR',
+            'Brasil' => 'BRL',
+            'Rusia' => 'RUB',
+            'Sudáfrica' => 'ZAR',
+            'Argentina' => 'ARS',
+            'Chile' => 'CLP',
+            'Colombia' => 'COP',
+        ];
+
         $request->validate([
             'cif' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
@@ -88,13 +178,15 @@ class ClientController extends Controller
             'correo' => 'required|string|email|max:255',
             'cuenta_corriente' => 'required|string|max:255',
             'pais' => 'required|string|max:255',
-            'moneda' => 'required|string|max:255',
             'importe_cuota_mensual' => 'required|numeric',
         ], [
             'telefono.regex' => 'El telefono solo puede contener números, espacios, guiones o el signo más.',
         ]);
 
-        $client->update($request->all());
+        $data = $request->all();
+        $data['moneda'] = $countries[$data['pais']] ?? '';
+
+        $client->update($data);
 
         return Redirect::route('clients.index')
             ->with('success', 'Client updated successfully');

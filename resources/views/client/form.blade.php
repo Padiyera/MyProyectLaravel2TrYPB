@@ -1,6 +1,5 @@
 <div class="row padding-1 p-1">
     <div class="col-md-12">
-        
         <div class="form-group mb-2 mb20">
             <label for="cif" class="form-label">{{ __('Cif') }}</label>
             <input type="text" name="cif" class="form-control @error('cif') is-invalid @enderror" value="{{ old('cif', $client?->cif) }}" id="cif" placeholder="Cif">
@@ -28,20 +27,19 @@
         </div>
         <div class="form-group mb-2 mb20">
             <label for="pais" class="form-label">{{ __('Pais') }}</label>
-            <input type="text" name="pais" class="form-control @error('pais') is-invalid @enderror" value="{{ old('pais', $client?->pais) }}" id="pais" placeholder="Pais">
+            <select name="pais" id="pais" class="form-control @error('pais') is-invalid @enderror">
+                <option value="">{{ __('Seleccione un país') }}</option>
+                @foreach ($countries as $country => $currency)
+                    <option value="{{ $country }}" {{ old('pais', $client?->pais) == $country ? 'selected' : '' }}>{{ $country }}</option>
+                @endforeach
+            </select>
             {!! $errors->first('pais', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
-        <div class="form-group mb-2 mb20">
-            <label for="moneda" class="form-label">{{ __('Moneda') }}</label>
-            <input type="text" name="moneda" class="form-control @error('moneda') is-invalid @enderror" value="{{ old('moneda', $client?->moneda) }}" id="moneda" placeholder="Moneda">
-            {!! $errors->first('moneda', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
         <div class="form-group mb-2 mb20">
             <label for="importe_cuota_mensual" class="form-label">{{ __('Importe Cuota Mensual') }}</label>
             <input type="text" name="importe_cuota_mensual" class="form-control @error('importe_cuota_mensual') is-invalid @enderror" value="{{ old('importe_cuota_mensual', $client?->importe_cuota_mensual) }}" id="importe_cuota_mensual" placeholder="Importe Cuota Mensual">
             {!! $errors->first('importe_cuota_mensual', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-
     </div>
     <div class="col-md-12 mt20 mt-2">
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
