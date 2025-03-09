@@ -21,6 +21,12 @@
                                 <a href="{{ route('fees.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Create New') }}
                                 </a>
+                                <form action="{{ route('fees.monthlyCharge') }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-warning btn-sm float-right ml-2">
+                                        {{ __('Cobro Mensual') }}
+                                    </button>
+                                </form>
                               </div>
                         </div>
                     </div>

@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         async updateProfile() {
-            this.errors = {}; // Reset errors
+            this.errors = {}; 
             if (!this.validateForm()) {
                 return;
             }
@@ -61,7 +61,7 @@ export default {
                 if (response.status === 200) {
                     this.status = 'Profile updated successfully!';
                     this.statusClass = 'alert-success';
-                    this.originalForm = { ...this.form }; // Update original form values
+                    this.originalForm = { ...this.form }; 
                 } else {
                     this.status = 'Failed to update profile.';
                     this.statusClass = 'alert-danger';
@@ -96,7 +96,7 @@ export default {
             try {
                 const response = await axios.get('/profile/show');
                 this.form = response.data.user;
-                this.originalForm = { ...response.data.user }; // Store original form values
+                this.originalForm = { ...response.data.user };
             } catch (error) {
                 this.status = 'Failed to load profile data.';
                 this.statusClass = 'alert-danger';

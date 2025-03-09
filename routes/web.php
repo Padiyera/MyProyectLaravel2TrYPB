@@ -54,3 +54,4 @@ Route::resource('fees', FeeController::class);
 Route::get('fees/{id}/print', [FeeController::class, 'print'])->name('fees.print');
 Route::get('fees/{id}/download', [FeeController::class, 'download'])->name('fees.download');
 Route::delete('tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+Route::post('fees/monthly-charge', [FeeController::class, 'monthlyCharge'])->name('fees.monthlyCharge');

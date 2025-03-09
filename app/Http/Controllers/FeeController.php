@@ -132,4 +132,24 @@ class FeeController extends Controller
         $pdf = PDF::loadView('fee.pdf', compact('fee'));
         return $pdf->download('factura_' . $fee->id . '.pdf');
     }
+
+    public function monthlyCharge(): RedirectResponse
+    {
+        $clients = Client::all();
+        $currentDate = Carbon::now()->format('Y-m-d');
+
+        foreach ($clients as $client) {
+            Fee::create([
+                'client_name' => $client->nombre,
+                'concept' => 'Cargo mensual',
+                'amount' => $client->importe_cuota_mensual,
+                'issue_date' => $currentDate,
+                'paid' => true,
+                'payment_date' => $currentDate,
+                'notes' => 'Gracias por confiar',
+            ]);
+        }
+
+        return Redirect::route('fees.index')->with('success', 'Facturas mensuales generadas con éxito.');
+    }
 }
