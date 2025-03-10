@@ -8,15 +8,24 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Services\CurrencyConverterService;
 
 class ClientController extends Controller
 {
+
+    protected $currencyConverterService;
+
+    public function __construct(CurrencyConverterService $currencyConverterService)
+    {
+        $this->currencyConverterService = $currencyConverterService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request): View
     {
-        $clients = Client::paginate(5); 
+        $clients = Client::paginate(5);
 
         return view('client.index', compact('clients'))
             ->with('i', ($request->input('page', 1) - 1) * $clients->perPage());
@@ -28,25 +37,25 @@ class ClientController extends Controller
     public function create(): View
     {
         $countries = [
-            'España' => 'EUR',
-            'Italia' => 'EUR',
-            'Alemania' => 'EUR',
-            'Francia' => 'EUR',
-            'Andorra' => 'EUR',
-            'Estados Unidos' => 'USD',
-            'Reino Unido' => 'GBP',
-            'Japón' => 'JPY',
-            'México' => 'MXN',
-            'Canadá' => 'CAD',
-            'Australia' => 'AUD',
-            'China' => 'CNY',
-            'India' => 'INR',
-            'Brasil' => 'BRL',
-            'Rusia' => 'RUB',
-            'Sudáfrica' => 'ZAR',
-            'Argentina' => 'ARS',
-            'Chile' => 'CLP',
-            'Colombia' => 'COP',
+            'España' => 'eur',
+            'Italia' => 'eur',
+            'Alemania' => 'eur',
+            'Francia' => 'eur',
+            'Andorra' => 'eur',
+            'Estados Unidos' => 'usd',
+            'Reino Unido' => 'gbp',
+            'Japón' => 'jpy',
+            'México' => 'mxn',
+            'Canadá' => 'cad',
+            'Australia' => 'aud',
+            'China' => 'cny',
+            'India' => 'inr',
+            'Brasil' => 'brl',
+            'Rusia' => 'rub',
+            'Sudáfrica' => 'zar',
+            'Argentina' => 'ars',
+            'Chile' => 'clp',
+            'Colombia' => 'cop',
         ];
 
         $client = new Client();
@@ -60,25 +69,25 @@ class ClientController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $countries = [
-            'España' => 'EUR',
-            'Italia' => 'EUR',
-            'Alemania' => 'EUR',
-            'Francia' => 'EUR',
-            'Andorra' => 'EUR',
-            'Estados Unidos' => 'USD',
-            'Reino Unido' => 'GBP',
-            'Japón' => 'JPY',
-            'México' => 'MXN',
-            'Canadá' => 'CAD',
-            'Australia' => 'AUD',
-            'China' => 'CNY',
-            'India' => 'INR',
-            'Brasil' => 'BRL',
-            'Rusia' => 'RUB',
-            'Sudáfrica' => 'ZAR',
-            'Argentina' => 'ARS',
-            'Chile' => 'CLP',
-            'Colombia' => 'COP',
+            'España' => 'eur',
+            'Italia' => 'eur',
+            'Alemania' => 'eur',
+            'Francia' => 'eur',
+            'Andorra' => 'eur',
+            'Estados Unidos' => 'usd',
+            'Reino Unido' => 'gbp',
+            'Japón' => 'jpy',
+            'México' => 'mxn',
+            'Canadá' => 'cad',
+            'Australia' => 'aud',
+            'China' => 'cny',
+            'India' => 'inr',
+            'Brasil' => 'brl',
+            'Rusia' => 'rub',
+            'Sudáfrica' => 'zar',
+            'Argentina' => 'ars',
+            'Chile' => 'clp',
+            'Colombia' => 'cop',
         ];
 
         $request->validate([
@@ -95,6 +104,18 @@ class ClientController extends Controller
 
         $data = $request->all();
         $data['moneda'] = $countries[$data['pais']] ?? '';
+
+
+        // Convertir el importe_cuota_mensual a EUR
+        $currencyCode = $data['moneda'];
+        $amount = $data['importe_cuota_mensual'];
+        $convertedAmount = $this->currencyConverterService->convert($amount, $currencyCode);
+
+        if ($convertedAmount === null) {
+            return Redirect::back()->withErrors(['importe_cuota_mensual' => 'No se pudo convertir el importe a EUR.']);
+        }
+
+        $data['importe_cuota_mensual'] = $convertedAmount;
 
         Client::create($data);
 
@@ -118,25 +139,25 @@ class ClientController extends Controller
     public function edit($id): View
     {
         $countries = [
-            'España' => 'EUR',
-            'Italia' => 'EUR',
-            'Alemania' => 'EUR',
-            'Francia' => 'EUR',
-            'Andorra' => 'EUR',
-            'Estados Unidos' => 'USD',
-            'Reino Unido' => 'GBP',
-            'Japón' => 'JPY',
-            'México' => 'MXN',
-            'Canadá' => 'CAD',
-            'Australia' => 'AUD',
-            'China' => 'CNY',
-            'India' => 'INR',
-            'Brasil' => 'BRL',
-            'Rusia' => 'RUB',
-            'Sudáfrica' => 'ZAR',
-            'Argentina' => 'ARS',
-            'Chile' => 'CLP',
-            'Colombia' => 'COP',
+            'España' => 'eur',
+            'Italia' => 'eur',
+            'Alemania' => 'eur',
+            'Francia' => 'eur',
+            'Andorra' => 'eur',
+            'Estados Unidos' => 'usd',
+            'Reino Unido' => 'gbp',
+            'Japón' => 'jpy',
+            'México' => 'mxn',
+            'Canadá' => 'cad',
+            'Australia' => 'aud',
+            'China' => 'cny',
+            'India' => 'inr',
+            'Brasil' => 'brl',
+            'Rusia' => 'rub',
+            'Sudáfrica' => 'zar',
+            'Argentina' => 'ars',
+            'Chile' => 'clp',
+            'Colombia' => 'cop',
         ];
 
         $client = Client::find($id);
@@ -150,25 +171,25 @@ class ClientController extends Controller
     public function update(Request $request, Client $client): RedirectResponse
     {
         $countries = [
-            'España' => 'EUR',
-            'Italia' => 'EUR',
-            'Alemania' => 'EUR',
-            'Francia' => 'EUR',
-            'Andorra' => 'EUR',
-            'Estados Unidos' => 'USD',
-            'Reino Unido' => 'GBP',
-            'Japón' => 'JPY',
-            'México' => 'MXN',
-            'Canadá' => 'CAD',
-            'Australia' => 'AUD',
-            'China' => 'CNY',
-            'India' => 'INR',
-            'Brasil' => 'BRL',
-            'Rusia' => 'RUB',
-            'Sudáfrica' => 'ZAR',
-            'Argentina' => 'ARS',
-            'Chile' => 'CLP',
-            'Colombia' => 'COP',
+            'España' => 'eur',
+            'Italia' => 'eur',
+            'Alemania' => 'eur',
+            'Francia' => 'eur',
+            'Andorra' => 'eur',
+            'Estados Unidos' => 'usd',
+            'Reino Unido' => 'gbp',
+            'Japón' => 'jpy',
+            'México' => 'mxn',
+            'Canadá' => 'cad',
+            'Australia' => 'aud',
+            'China' => 'cny',
+            'India' => 'inr',
+            'Brasil' => 'brl',
+            'Rusia' => 'rub',
+            'Sudáfrica' => 'zar',
+            'Argentina' => 'ars',
+            'Chile' => 'clp',
+            'Colombia' => 'cop',
         ];
 
         $request->validate([
@@ -185,6 +206,17 @@ class ClientController extends Controller
 
         $data = $request->all();
         $data['moneda'] = $countries[$data['pais']] ?? '';
+
+        // Convertir el importe_cuota_mensual a EUR
+        $currencyCode = $data['moneda'];
+        $amount = $data['importe_cuota_mensual'];
+        $convertedAmount = $this->currencyConverterService->convert($amount, $currencyCode);
+
+        if ($convertedAmount === null) {
+            return Redirect::back()->withErrors(['importe_cuota_mensual' => 'No se pudo convertir el importe a EUR.']);
+        }
+
+        $data['importe_cuota_mensual'] = $convertedAmount;
 
         $client->update($data);
 
